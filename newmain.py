@@ -4,18 +4,18 @@ import numpy as np
 def VectorChange(matrix, row, col):
     cj = list(matrix[0][:9]) #Список значений целевой функции
     sum = 0
-    sumArr = []
+    sumArr = [] #массив сумм значений в матрице
     for i in range(0, col - 1):
         for j in range(1, row):
             sum += matrix[j][i]
         sumArr.append(sum)
         sum = 0
-    jcj = []
+    jcj = [] #массив значений целевых функций базисных векторов
     for i in range(len(sumArr)):
         if sumArr[i] == 1.0:
             jcj.append(cj[i])
 
-    deltaJ = []
+    deltaJ = [] #массив дельта жи
     deltaSum = 0
     test = []
     for i in range(0, col):
@@ -25,7 +25,7 @@ def VectorChange(matrix, row, col):
         deltaSum -= cj[i]
         deltaJ.append(deltaSum)
         deltaSum = 0
-    jnum = deltaJ.index(min(deltaJ))
+    jnum = deltaJ.index(min(deltaJ)) #вносимый вектор
     m = []
     for i in range(row):
         if matrix[i][jnum] == 0:
