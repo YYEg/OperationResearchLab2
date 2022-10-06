@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def VectorChange(matrix, row, col):
     cj = list(matrix[0][:9]) #Список значений целевой функции
     sum = 0
@@ -17,35 +16,58 @@ def VectorChange(matrix, row, col):
 
     deltaJ = [] #массив дельта жи
     deltaSum = 0
-    test = []
     for i in range(0, col):
         for j in range(len(jcj)):
             deltaSum += (matrix[j][i] * jcj[j])
-            test.append(deltaSum)
         deltaSum -= cj[i]
         deltaJ.append(deltaSum)
         deltaSum = 0
     jnum = deltaJ.index(min(deltaJ)) #вносимый вектор
-    m = []
+
+    m = [] #массив для поиска минимального значения
     for i in range(row):
         if matrix[i][jnum] == 0:
             m.append(0)
         else:
             m.append(matrix[i][-1] / matrix[i][jnum])
-    inum = m.index(min([x for x in m[1:] if x != 0]))  # Перенести нижний индекс
-    basisVectors[inum - 1] = jnum
-    r = matrix[inum][jnum]
-    matrix[inum] /= r
-    for i in [x for x in range(row) if x != inum]:
+
+    inum = m.index(min([x for x in m[1:] if x != 0]))  # Минимальное значение выводится из базиса
+    basisVectors[inum - 1] = jnum #[inum - 1] для того чтобы убрать первый в массиве член, принадлежащий целевой функции
+    r = matrix[inum][jnum] # коэф на пересечении выходящего и входящего векторов
+    matrix[inum] /= r #делит строчку выходящего на нужный коэф.
+    for i in [x for x in range(row) if x != inum]: #если x не выходящая строчка
         r = matrix[i][jnum]
-        matrix[i] -= r * matrix[inum]
+        matrix[i] -= r * matrix[inum] #отнимает от строчки выходящую строчку умноженную на коэф.
 def solve(matrix, row, col):
     flag = True
     while flag:
-        if max(list(matrix[0][:-1])) <= 0: # Пока все коэффициенты не будут меньше или равны 0
+        cj = list(matrix[0][:9])  # Список значений целевой функции
+        sum = 0
+        sumArr = []  # массив сумм значений в матрице
+        for i in range(0, col - 1):
+            for j in range(1, row):
+                sum += matrix[j][i]
+            sumArr.append(sum)
+            sum = 0
+        jcj = []  # массив значений целевых функций базисных векторов
+        for i in range(len(sumArr)):
+            if sumArr[i] == 1.0:
+                jcj.append(cj[i])
+
+        deltaJ = []  # массив дельта жи
+        deltaSum = 0
+        test = []
+        for i in range(0, col):
+            for j in range(len(jcj)):
+                deltaSum += (matrix[j][i] * jcj[j])
+                test.append(deltaSum)
+            deltaSum -= cj[i]
+            deltaJ.append(deltaSum)
+            deltaSum = 0
+        if min(list(deltaJ)) >= 0: #Если нет отрицательных прекращаем
             flag = False
         else:
-            VectorChange(matrix, row, col)
+            VectorChange(matrix, row, col)#Иначе следующая итерация
 def printSol(matrix, col):
     for i in range(col - 1):
         if i in basisVectors:
