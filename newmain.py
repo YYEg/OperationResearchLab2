@@ -53,9 +53,9 @@ def printSol(matrix, col):
         else:
             print("x"+str(i)+"=0.00")
     print("objective is %.2f"%(-matrix[0][-1]))
-matrix = np.loadtxt("newdata.txt", dtype=float)
+matrix = np.loadtxt("data.txt", dtype=float)
 (row, col) = matrix.shape
-basisVectors = list(range((col) - (row - 1), col))
+basisVectors = list(range((col - 1) - (row - 1), col - 1))
 VectorChange(matrix, row, col)
 solve(matrix, row, col)
 printSol(matrix, col)
