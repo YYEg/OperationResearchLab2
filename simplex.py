@@ -65,7 +65,7 @@ def noMinus(a0, matrix, row, col):
 
     inum = m.index(min([x for x in m if x < 0]))
 
-    forChange = [] # массив для вычитаемого столбика
+    forChange = [] # вводит элементы для изменения матрицы
     for i in range(0, row):
         forChange.append(matrix[i][inum])
 
@@ -150,12 +150,12 @@ while(True): #Вывод информации на экран
         optimize(matrix, row, col)
         optimizeOutputMax(matrix, col)
     if choice == 2:
-        matrix = np.loadtxt("datanew.txt", dtype=float)
-        (row, col) = matrix.shape
-        basisVectors = list(range((col - 1) - (row - 1), col - 1))
-        doNoMinus(matrix, row, col)
-        optimize(matrix, row, col)
-        optimizeOutputMin(matrix, col)
+        matrix = np.loadtxt("datanew.txt", dtype=float) #Загрузка матрицы в программу из файла
+        (row, col) = matrix.shape #Возвращает размерность массива
+        basisVectors = list(range((col - 1) - (row - 1), col - 1)) #первые базисные вектора
+        doNoMinus(matrix, row, col) #Вызов функции убирающие отрицательные значения ограничений
+        optimize(matrix, row, col) #поиск оптимального решения
+        optimizeOutputMin(matrix, col) #печать ответа
     if choice == 3:
         break
 
