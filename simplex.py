@@ -119,7 +119,6 @@ def optimize(matrix, row, col):
             print("Базисные вектора = {", end, "}")
             VectorChange(matrix, row, col)#Иначе следующая итерация
 
-
 def optimizeOutputMax(matrix, col):
     for i in range(col - 1):
         if i in basisVectors:
@@ -133,7 +132,7 @@ def optimizeOutputMin(matrix, col):
             print("x"+str(i + 1)+"=%.2f" % matrix[basisVectors.index(i)+1][-1])
         else:
             print("x"+str(i + 1)+"=0.00")
-    print("оптимальное максимизированное значение = %.2f"%(matrix[0][-1]))
+    print("оптимальное минимизированное решение значение = %.2f"%(-matrix[0][-1]))
 
 print("Лабораторная работа по ИО №2")
 while(True): #Вывод информации на экран
@@ -158,5 +157,3 @@ while(True): #Вывод информации на экран
         optimizeOutputMin(matrix, col) #печать ответа
     if choice == 3:
         break
-
-
